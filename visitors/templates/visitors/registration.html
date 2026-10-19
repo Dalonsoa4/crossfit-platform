@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inscription - CrossFit</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form p {
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        input[type="radio"] {
+            width: auto;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #222;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #444;
+        }
+
+        .errorlist {
+            color: #b00020;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Bienvenue à la box ! 💪</h1>
+
+        <p>
+            Complète ce formulaire avant ta séance.
+        </p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Valider mon inscription
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

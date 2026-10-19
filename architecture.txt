@@ -1,0 +1,39 @@
+      Ubuntu
+        │
+        ├── Django
+        │     │
+        │     │ Connexion PostgreSQL
+        │     ▼
+        │   127.0.0.1:5432
+        │     │
+        └── Docker
+              │
+              └── PostgreSQL
+                    │
+                    └── Base crossfit
+
+CFB?4
+
+
+Ce que contiendra le projet : 
+
+
+crossfit-platform/
+│
+├── config/          # Configuration Django
+│
+├── visitors/        # Gestion des visiteurs
+            Fichier	Rôle
+            models.py	Définit les données stockées dans PostgreSQL
+            views.py	Contient la logique des pages web
+            admin.py	Configure l'interface Django Admin
+            tests.py	Contient les tests automatiques
+            migrations/	Historique des modifications de la base de données
+│
+├── messaging/       # WhatsApp (plus tard)
+│
+├── dashboard/       # Interface du coach (plus tard)
+│
+├── manage.py
+├── docker-compose.yml
+└── requirements.txt

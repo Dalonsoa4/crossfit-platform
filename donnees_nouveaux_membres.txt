@@ -1,0 +1,19 @@
+Champ	Type	Description
+
+first_name	Texte	Prénom
+
+last_name	Texte	Nom
+
+phone	Texte	Numéro de téléphone
+
+email	Texte	Adresse e-mail (facultative)
+
+visit_type	Choix	Essai ou drop-in
+
+discovery_source	Choix	Comment la personne a connu la box
+
+created_at	Date et heure	Date d'inscription
+
+status	Choix	Statut du visiteur
+
+Status = Nouveau/contacté/converti
