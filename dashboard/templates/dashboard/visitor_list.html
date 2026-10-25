@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Visiteurs - Crossfit Braine</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            color: #222;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .filters input,
+        .filters select,
+        .filters button {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .filters button {
+            background: #222;
+            color: white;
+            cursor: pointer;
+        }
+
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            color: #666;
+        }
+
+        .pagination {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .pagination a {
+            color: #222;
+        }
+
+        .reset-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            background-color: #222;
+            color: white;
+            border: 1px solid #222;
+            border-radius: 6px;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .reset-button:hover {
+            background-color: #444;
+        }
+
+        table a {
+            color: #222;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        table a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>Crossfit Braine</h2>
+    <a href="{% url 'dashboard_home' %}">
+        ← Tableau de bord
+    </a>
+</header>
+
+<main>
+
+    <h1>Gestion des visiteurs</h1>
+
+    <form method="get" class="filters">
+
+        <input
+            type="text"
+            name="q"
+            placeholder="Nom, prénom, téléphone..."
+            value="{{ search_query }}"
+        >
+
+        <select name="type">
+            <option value="">Tous les types</option>
+
+            {% for value, label in visit_types %}
+                <option value="{{ value }}"
+                    {% if selected_type == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="status">
+            <option value="">Tous les statuts</option>
+
+            {% for value, label in statuses %}
+                <option value="{{ value }}"
+                    {% if selected_status == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+
+    <button type="submit">Rechercher</button>
+
+    <a href="{% url 'visitor_list' %}" class="reset-button">
+        Réinitialiser
+    </a>
+
+    </form>
+
+    <div class="table-container">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Téléphone</th>
+                    <th>Type</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for visitor in page_obj %}
+
+                <tr>
+                    <td>
+                        <a href="{% url 'visitor_detail' visitor.id %}">
+                            {{ visitor.first_name }}
+                            {{ visitor.last_name }}
+                        </a>
+                    </td>
+
+                    <td>{{ visitor.phone }}</td>
+
+                    <td>{{ visitor.get_visit_type_display }}</td>
+
+                    <td>{{ visitor.get_status_display }}</td>
+
+                    <td>{{ visitor.created_at|date:"d/m/Y" }}</td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="5">
+                        Aucun visiteur trouvé.
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="pagination">
+
+        {% if page_obj.has_previous %}
+            <a href="?q={{ search_query|urlencode }}&type={{ selected_type|urlencode }}&status={{ selected_status|urlencode }}&page={{ page_obj.previous_page_number }}">
+                ← Précédent
+            </a>
+        {% endif %}
+
+        <span>
+            Page {{ page_obj.number }}
+            sur {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?q={{ search_query|urlencode }}&type={{ selected_type|urlencode }}&status={{ selected_status|urlencode }}&page={{ page_obj.next_page_number }}">
+                Suivant →
+            </a>
+        {% endif %}
+
+    </div>
+
+</main>
+
+</body>
+</html>

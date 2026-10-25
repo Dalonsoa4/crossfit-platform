@@ -14,6 +14,7 @@ class VisitorForm(forms.ModelForm):
             "email",
             "visit_type",
             "discovery_source",
+            "whatsapp_consent",
         ]
 
         widgets = {
@@ -33,3 +34,14 @@ class VisitorForm(forms.ModelForm):
             }),
             "visit_type": forms.RadioSelect(),
         }
+
+    whatsapp_consent = forms.BooleanField(
+    required=False,
+    label=(
+        "J'accepte d'être recontacté(e) par Crossfit Braine "
+        "via WhatsApp après ma séance, notamment pour donner "
+        "mon avis et recevoir des informations sur les abonnements. "
+        "Je peux retirer mon consentement à tout moment."
+    ),
+    widget=forms.CheckboxInput()
+)

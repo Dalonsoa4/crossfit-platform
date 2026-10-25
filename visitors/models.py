@@ -18,7 +18,7 @@ class Visitor(models.Model):
     class Status(models.TextChoices):
         NEW = "new", "Nouveau"
         CONTACTED = "contacted", "Contacté"
-        CONVERTED = "converted", "Converti en membre"
+        CONVERTED = "converted", "Devenu membre de la meilleure box"
 
     first_name = models.CharField(
         max_length=100,
@@ -62,6 +62,23 @@ class Visitor(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Date d'inscription"
+    )
+
+    whatsapp_consent = models.BooleanField(
+    default=False,
+    verbose_name="Consentement WhatsApp"
+    )
+
+    whatsapp_consent_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Date du consentement WhatsApp"
+    )
+
+    whatsapp_consent_version = models.CharField(
+        max_length=20,
+        blank=True,
+        verbose_name="Version du consentement WhatsApp"
     )
 
     class Meta:

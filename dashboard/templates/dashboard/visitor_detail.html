@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {{ visitor.first_name }} {{ visitor.last_name }}
+    </title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            color: #222;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px 30px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #222;
+            text-decoration: none;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            gap: 20px;
+        }
+
+        .info-label {
+            color: #666;
+        }
+
+        .status-select {
+            display: block;
+            margin-top: 15px;
+            padding: 12px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #222;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        .success-message {
+            padding: 15px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="{% url 'dashboard_home' %}">
+        CROSSFIT BRAINE
+    </a>
+</header>
+
+<main>
+
+    <a href="{% url 'visitor_list' %}" class="back-link">
+        ← Retour aux visiteurs
+    </a>
+
+    <h1>
+        {{ visitor.first_name }} {{ visitor.last_name }}
+    </h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="success-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card">
+
+        <h2>Informations personnelles</h2>
+
+        <div class="info-row">
+            <span class="info-label">Prénom</span>
+            <strong>{{ visitor.first_name }}</strong>
+        </div>
+
+        <div class="info-row">
+            <span class="info-label">Nom</span>
+            <strong>{{ visitor.last_name }}</strong>
+        </div>
+
+        <div class="info-row">
+            <span class="info-label">Téléphone</span>
+            <strong>{{ visitor.phone }}</strong>
+        </div>
+
+        <div class="info-row">
+            <span class="info-label">Email</span>
+            <strong>{{ visitor.email|default:"Non renseigné" }}</strong>
+        </div>
+
+        <div class="info-row">
+            <span class="info-label">Contact WhatsApp autorisé</span>
+
+            <strong>
+                {% if visitor.whatsapp_consent %}
+                    ✅ Oui
+                {% else %}
+                    ❌ Non
+                {% endif %}
+            </strong>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Informations sur la visite</h2>
+
+        <div class="info-row">
+            <span class="info-label">Type de visite</span>
+            <strong>{{ visitor.get_visit_type_display }}</strong>
+        </div>
+
+        <div class="info-row">
+            <span class="info-label">Date d'inscription</span>
+            <strong>{{ visitor.created_at|date:"d/m/Y H:i" }}</strong>
+        </div>
+
+        <div class="info-row">
+            <span class="info-label">Comment il a connu la Box</span>
+            <strong>{{ visitor.get_discovery_source_display }}</strong>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Suivi du visiteur</h2>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <label for="{{ form.status.id_for_label }}">
+                Statut
+            </label>
+
+            {{ form.status }}
+            {{ form.status.errors }}
+
+            <button type="submit">
+                Enregistrer les modifications
+            </button>
+
+        </form>
+
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # app rajoutees
     "visitors",
+    "dashboard",
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGIN_URL = "/dashboard/connexion/"
+
+LOGIN_REDIRECT_URL = "/dashboard/"
+
+LOGOUT_REDIRECT_URL = "/dashboard/connexion/"

@@ -14,4 +14,10 @@ urlpatterns = [
         views.registration_success,
         name="registration_success"
     ),
+    
+    path(
+    "confidentialite/",
+    views.privacy_policy,
+    name="privacy_policy"
+),
 ]

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Connexion - CrossFit Box</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #222;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .error {
+            color: #b00020;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Espace coach 💪</h1>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <p class="error">
+                Identifiant ou mot de passe incorrect.
+            </p>
+        {% endif %}
+
+        <label for="id_username">
+            Nom d'utilisateur
+        </label>
+
+        {{ form.username }}
+
+        <label for="id_password">
+            Mot de passe
+        </label>
+
+        {{ form.password }}
+
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <button type="submit">
+            Se connecter
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
